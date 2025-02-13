@@ -65,6 +65,15 @@ and at this point, you can enable and start the service:
 ```bash
 systemctl enable --now tgtd-podman.service
 ```
+
+### 6. Check exported target
+
+You can check the status of the exported devices by running the command:
+
+```bash
+podman exec tgtd tgtadm --lld iscsi --mode target --op show
+```
+
 ### Conclusion
 
 You have successfully built a Podman container for the iSCSI target service, created a Podman volume for configuration, and set up a systemd service to ensure the container runs on host startup.
