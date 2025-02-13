@@ -1,0 +1,17 @@
+#!/bin/bash
+
+podman rm tgtd --force || true
+
+podman run \
+        --privileged \
+        -d \
+        --name tgtd \
+	-v /dev/disk:/dev/disk:ro \
+        -v tgt-confd:/etc/tgt/conf.d \
+        --network host \
+        localhost/tgtd-image:v1 /sbin/init
+
+# regenerate the service as it binds on the container id rather than the
+# container name
+podman generate systemd tgtd > tgtd-podman.service
+systemctl daemon-reload
